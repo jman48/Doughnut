@@ -1,4 +1,4 @@
-var info2001 = [{Northland:144400},
+var popInfo2001 = [{Northland:144400},
                 {Auckland:1218300},
                 {Waikato:368400},
                 {BayOfPlenty:246900},
@@ -18,7 +18,7 @@ var info2001 = [{Northland:144400},
                 {SouthIsland:935400},
                 {NewZealand:3880500}];
 
-var info2006 = [{Northland:152700},
+var popInfo2006 = [{Northland:152700},
                 {Auckland:1373000},
                 {Waikato:393200},
                 {BayOfPlenty:265300},
@@ -38,7 +38,7 @@ var info2006 = [{Northland:152700},
                 {SouthIsland:998800},
                 {NewZealand:4184600}];
 
-var info2013 = [{Northland:158700},
+var popInfo2013 = [{Northland:158700},
                 {Auckland:1529400},
                 {Waikato:418500},
                 {BayOfPlenty:278000},
