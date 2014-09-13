@@ -1,0 +1,57 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <script src="http://d3js.org/d3.v3.js" charset="utf-8"></script>
+     <script src="uk.js" charset="utf-8"></script>
+     <script src="http://cdnjs.cloudflare.com/ajax/libs/topojson/1.1.0/topojson.min.js" charset="utf-8"></script>
+    <title></title>
+</head>
+<body>
+    
+    
+    <script>
+    console.log("asd");
+     //Width and height
+            var w = 1000;
+            var h = 1000;
+
+            //Define map projection
+            var projection = d3.geo.equirectangular()  
+							    .scale(3000)
+							    .translate([w/2,h/2])
+							    .rotate([-180,41]);
+
+            //Define path generator
+            var path = d3.geo.path()
+                             .projection(projection);
+
+            //Create SVG element
+            var svg = d3.select("body")
+                        .append("svg")
+                        .attr("width", w)
+                        .attr("height", h);    
+        
+        
+        nzg = topojson.feature(nz, nz.objects['nz-regional-councils-census'])
+
+                //Bind data and create one path per GeoJSON feature
+                svg.selectAll("path")
+                   .data(nzg.features)
+                   .enter()
+                   .append("path")
+                   .attr("d", path)
+                   .style("fill", "steelblue")
+                   .style("text", function(d, i) {
+                   	return i;
+                   })
+                   .on("mouseover", function(d) {
+			            d3.select(this).style("opacity", 0.5);
+			        })
+                   .on("mouseout", function(d) {
+			            d3.select(this).style("opacity", 1);
+			        });
+        
+    </script>
+</body>
+</html>
