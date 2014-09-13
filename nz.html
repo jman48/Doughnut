@@ -16,6 +16,14 @@
             margin-right:auto;
             display:block;
         }
+        
+        .focus {
+            opacity: 1;
+        }
+        
+        .unFocus {
+            opacity: 0.5;
+        }
     </style>
     
     <script>
@@ -23,13 +31,19 @@
      //Width and height
             var w = 1000;
             var h = 1000;
+             
              var maxColor = "#000A00";
              var minColor = "#99C299";
+             
+             var cLat = -180;
+             var cLong = 41;
+             
              var transition = 1000;
+             var scale = 3200;
 
             //Define map projection
             var projection = d3.geo.equirectangular()  
-							    .scale(3200)
+							    .scale(scale)
 							    .translate([w/2 + (w/8),h/2 - (h/12)])
 							    .rotate([-180,41]);
 
@@ -48,13 +62,16 @@
                       .range("#000000", "#00FF00");
         */
         
-        
+       var regions = ["North Land", "Auckland", "Waikato", "Bay of Plenty", "Gisbourne", "Hawkes Bay", "Wanganui", "Manuatu", "Wellington", "West Coast", "Canterbury", "Otago", "Southland", "Nelson", "Tasman", "Malbouragh"];
        var popData = getPopData(popInfo2001);
   
         
         var scale = d3.scale.linear()
                     .domain([d3.min(popData), d3.max(popData)])
                     .range([minColor, maxColor]);
+             
+             var zoomed = false;
+       
         
         
         
@@ -75,15 +92,38 @@
                    .style("text", function(d, i) {
                    	return i;
                    })
+                    .attr("id", function(d, i) {
+                        return regions[i];
+                    })
                    .on("mouseover", function(d) {
-			            d3.select(this).style("opacity", 0.6);
-			        })
+                        if(zoomed == false) {
+                            d3.select(this).style("opacity", 0.6);
+                        }
+                    })
                    .on("mouseout", function(d) {
-			            d3.select(this).style("opacity", 1);
-			        });
+                        if(zoomed == false) {
+                            d3.select(this).style("opacity", 1);
+                        }
+			        })
+                    .on("click", function(d){
+                        zoomed = true;
+                        var cords = d3.geo.centroid(d);
+                        console.log(d3.selectAll("this"));
+                        drawMap(cords[0], cords[1], 7200)
+                        d3.selectAll("path").style("opacity", 0.5);
+                        d3.select(this).style("opacity", 1); 
+                    });
         
         //-------------------------------------- Functions =========================
-        
+        function drawMap(xCord, yCord, scale) {
+            projection.rotate([xCord * -1,  yCord * -1])
+                    .scale(scale);
+            
+            svg.selectAll("path")
+            .attr("d", path);
+            
+        }
+             
         function updateMap() {
   
         
