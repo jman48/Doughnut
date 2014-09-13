@@ -5,13 +5,13 @@
     <script src="http://d3js.org/d3.v3.js" charset="utf-8"></script>
      <script src="uk.js" charset="utf-8"></script>
      <script src="http://cdnjs.cloudflare.com/ajax/libs/topojson/1.1.0/topojson.min.js" charset="utf-8"></script>
+    <script src="PopulationData.js" charset="utf-8"></script>
     <title></title>
 </head>
 <body>
     
     
     <script>
-    console.log("asd");
      //Width and height
             var w = 1000;
             var h = 1000;
@@ -32,6 +32,23 @@
                         .attr("width", w)
                         .attr("height", h);    
         
+       /*var color = d3.scale.ordinal()
+                      .domain([0, d3.max(popInfo2001)])
+                      .range("#000000", "#00FF00");
+        */
+        
+        
+        var population = [];
+        
+        for(var i = 0; i < popInfo2001.length; i++) {
+           population.push(popInfo2001[i].Population);
+        }
+        
+        var scale = d3.scale.linear()
+                    .domain([d3.min(population), d3.max(population)])
+                    .range(["#99D6AD", "#000A00"]);
+        
+        
         
         nzg = topojson.feature(nz, nz.objects['nz-regional-councils-census'])
 
@@ -41,12 +58,23 @@
                    .enter()
                    .append("path")
                    .attr("d", path)
-                   .style("fill", "steelblue")
+                    .attr("data", function(d, i) {
+                        return population[i];
+                    })
+                   .style("fill", function(d, i) {   
+                        //return "#00FF00";
+                        //d3.select(this).attr
+                        return scale(d3.select(this).attr("data"));
+                    })
+                    .style("opacity", function(d, i) {
+                        return "rgba(0, 255, 0, " + 1 / i + ")";
+                    })
                    .style("text", function(d, i) {
                    	return i;
                    })
                    .on("mouseover", function(d) {
 			            d3.select(this).style("opacity", 0.5);
+                    alert(d3.select(this).attr("data"));
 			        })
                    .on("mouseout", function(d) {
 			            d3.select(this).style("opacity", 1);
