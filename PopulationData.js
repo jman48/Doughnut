@@ -1,1 +1,1 @@
-var fileName = ["Pop info.csv"];
+var files = ["Pop info.csv", ""];
