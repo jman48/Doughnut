@@ -2,6 +2,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="http://d3js.org/d3.v3.js" charset="utf-8"></script>
      <script src="uk.js" charset="utf-8"></script>
      <script src="http://cdnjs.cloudflare.com/ajax/libs/topojson/1.1.0/topojson.min.js" charset="utf-8"></script>
@@ -9,17 +10,27 @@
     <title></title>
 </head>
 <body>
-    
+    <style>
+        div svg{
+            margin-left:auto;
+            margin-right:auto;
+            display:block;
+        }
+    </style>
     
     <script>
+         $('document').ready(function(){
      //Width and height
             var w = 1000;
             var h = 1000;
+             var maxColor = "#000A00";
+             var minColor = "#99C299";
+             var transition = 1000;
 
             //Define map projection
             var projection = d3.geo.equirectangular()  
-							    .scale(3000)
-							    .translate([w/2,h/2])
+							    .scale(3200)
+							    .translate([w/2 + (w/8),h/2 - (h/12)])
 							    .rotate([-180,41]);
 
             //Define path generator
@@ -27,7 +38,7 @@
                              .projection(projection);
 
             //Create SVG element
-            var svg = d3.select("body")
+            var svg = d3.select("#map_area")
                         .append("svg")
                         .attr("width", w)
                         .attr("height", h);    
@@ -38,15 +49,12 @@
         */
         
         
-        var population = [];
-        
-        for(var i = 0; i < popInfo2001.length; i++) {
-           population.push(popInfo2001[i].Population);
-        }
+       var popData = getPopData(popInfo2001);
+  
         
         var scale = d3.scale.linear()
-                    .domain([d3.min(population), d3.max(population)])
-                    .range(["#99D6AD", "#000A00"]);
+                    .domain([d3.min(popData), d3.max(popData)])
+                    .range([minColor, maxColor]);
         
         
         
@@ -58,13 +66,8 @@
                    .enter()
                    .append("path")
                    .attr("d", path)
-                    .attr("data", function(d, i) {
-                        return population[i];
-                    })
                    .style("fill", function(d, i) {   
-                        //return "#00FF00";
-                        //d3.select(this).attr
-                        return scale(d3.select(this).attr("data"));
+                        return scale(popData[i]);
                     })
                     .style("opacity", function(d, i) {
                         return "rgba(0, 255, 0, " + 1 / i + ")";
@@ -73,13 +76,62 @@
                    	return i;
                    })
                    .on("mouseover", function(d) {
-			            d3.select(this).style("opacity", 0.5);
-                    alert(d3.select(this).attr("data"));
+			            d3.select(this).style("opacity", 0.6);
 			        })
                    .on("mouseout", function(d) {
 			            d3.select(this).style("opacity", 1);
 			        });
         
+        //-------------------------------------- Functions =========================
+        
+        function updateMap() {
+  
+        
+            scale = d3.scale.linear()
+                        .domain([d3.min(popData), d3.max(popData)])
+                        .range([minColor, maxColor]);
+            
+            svg.selectAll("path")            
+            .transition().duration(transition)
+            .style("fill", function(d, i) {   
+                        return scale(popData[i]);
+                    });
+            
+        }
+        
+        
+       
+            
+            $('#year_select').on('change', function() {
+                var selected = $("#year_select").val();
+                if(selected == "2001") {
+                    popData = getPopData(popInfo2001);
+                }                 
+                else {
+                    popData = getPopData(popInfo2006);
+                }
+                updateMap();
+            })
+        /*
+         * Returns an array with population count.
+         */
+        function getPopData(yearArray) {
+            var population = [];
+        
+            for(var i = 0; i < yearArray.length; i++) {
+               population.push(yearArray[i].Population);
+            }
+            return population;
+        }
+         });
+        
     </script>
+    <select id="year_select">
+        <option>2001</option>
+        <option>2006</option>
+    </select>
+    <div id="map_area">
+        
+    </div>
 </body>
 </html>
