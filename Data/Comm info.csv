@@ -1,21 +1,3 @@
-C013 Census,,,
-Access to telecommunication systems(1),New Zealand,Percent,
-No access,"24,132",1.6,
-Cellphone/mobile phone,"1,230,174",83.7,
-Telephone,"1,257,195",85.5,
-Fax machine,"214,554",14.6,
-Internet,"1,128,738",76.8,
-Total households stated,"1,469,949",�,
-,,,
-,,,
-,,,
-,,,
-Access to telecommunication systems (1),2001,2006,2013
-No access,"46,815","28,407","24,135"
-Cellphone/mobile phone(2),..,"1,034,529","1,230,171"
-Telephone,"1,240,830","1,277,325","1,257,195"
-Fax machine,"325,557","362,040","214,554"
-Internet,"482,361","843,735","1,128,738"
-Total households stated,"1,289,127","1,393,707","1,469,946"
-,,,
-,,,
+2001,No access,46815,Mobile,,Telephone,1240830,Fax,325557,Internet,482361,Total,1289127
+2006,No access,,Mobile,1034529,Telephone,1277325,Fax,362040,Internet,843735,Total,1393707
+2013,No access,24132,Mobile,1230174,Telephone,1257195,Fax,214554,Internet,1128738,Total,1469949
