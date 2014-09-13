@@ -24,6 +24,10 @@
         .unFocus {
             opacity: 0.5;
         }
+        
+        #back_button {
+            visibility: hidden;
+        }
     </style>
     
     <script>
@@ -112,6 +116,7 @@
                         drawMap(cords[0], cords[1], 7200)
                         d3.selectAll("path").style("opacity", 0.5);
                         d3.select(this).style("opacity", 1); 
+                        d3.select("#back_button").style("visibility", "visible");
                     });
         
         //-------------------------------------- Functions =========================
@@ -124,9 +129,11 @@
             
         }
              
-        function updateMap() {
-  
-        
+       $("#back_button").click(function() {
+           drawMap(cLat, cLong, scale);
+       })
+             
+        function updateMap() {        
             scale = d3.scale.linear()
                         .domain([d3.min(popData), d3.max(popData)])
                         .range([minColor, maxColor]);
@@ -170,6 +177,7 @@
         <option>2001</option>
         <option>2006</option>
     </select>
+    <input id="back_button" type="button" value="Back" />
     <div id="map_area">
         
     </div>
