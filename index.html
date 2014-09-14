@@ -5,11 +5,19 @@ To change this template use Tools | Templates.
 <html>
 <head>
     <title></title>
-    <script src="PopulationData.js"></script>
+    <script src="CommData.js"></script>
+    <script src="functions.js"></script>
+                             
     <script>
-        alert(info2001[0].Northland);
-    
+        
+        var percentage = getNoAccessData(1,2013);
+        console.log("percentage="+percentage);
+        
+        var table = getICTData(1,2013);
+        
+        console.log("getting the collection:"+table.Region );
     </script>
+    
 </head>
 <body>
 
