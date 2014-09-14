@@ -1,3 +1,196 @@
+ data2 = [
+       
+{
+    "Year": "2001",
+    "Region": "Hawke's Bay",
+    "Population": "27300"
+},
+{
+    "Year": "2001",
+    "Region": "Taranaki",
+    "Population": "12700"
+},
+{
+    "Year": "2001",
+    "Region": "Manawatu-Wanganui",
+    "Population": "217500"
+},
+{
+    "Year": "2001",
+    "Region": "Wellington",
+    "Population": "540200"
+},
+{
+    "Year": "2001",
+    "Region": "Tasman",
+    "Population": "12400"
+},
+{
+    "Year": "2001",
+    "Region": "Nelson",
+    "Population": "52900"
+},
+{
+    "Year": "2001",
+    "Region": "Marlborough",
+    "Population": "30700"
+},
+{
+    "Year": "2001",
+    "Region": "West Coast",
+    "Population": "51100"
+},
+{
+    "Year": "2001",
+    "Region": "Canterbury",
+    "Population": "46700"
+},
+{
+    "Year": "2001",
+    "Region": "Otago",
+    "Population": "188300"
+},
+{
+    "Year": "2001",
+    "Region": "Southland",
+    "Population": "93300"
+},
+{
+    "Year": "2006",
+    "Region": "Northland",
+    "Population": "152700"
+},
+{
+    "Year": "2006",
+    "Region": "Auckland",
+    "Population": "1373000"
+},
+{
+    "Year": "2006",
+    "Region": "Waikato",
+    "Population": "393200"
+},
+{
+    "Year": "2006",
+    "Region": "Bay of Plenty",
+    "Population": "265300"
+},
+{
+    "Year": "2006",
+    "Region": "Gisborne",
+    "Population": "46000"
+},
+{
+    "Year": "2006",
+    "Region": "Hawke's Bay",
+    "Population": "152100"
+},
+{
+    "Year": "2006",
+    "Region": "Taranaki",
+    "Population": "107300"
+},
+{
+    "Year": "2006",
+    "Region": "Manawatu-Wanganui",
+    "Population": "229400"
+},
+{
+    "Year": "2006",
+    "Region": "Wellington",
+    "Population": "466300"
+},
+{
+    "Year": "2006",
+    "Region": "Tasman",
+    "Population": "45800"
+},
+{
+    "Year": "2006",
+    "Region": "Nelson",
+    "Population": "44300"
+},
+{
+    "Year": "2006",
+    "Region": "Marlborough",
+    "Population": "43600"
+},
+{
+    "Year": "2006",
+    "Region": "West Coast",
+    "Population": "32100"
+},
+{
+    "Year": "2006",
+    "Region": "Canterbury",
+    "Population": "540000"
+},
+{
+    "Year": "2006",
+    "Region": "Otago",
+    "Population": "199800"
+},
+{
+    "Year": "2006",
+    "Region": "Southland",
+    "Population": "93200"
+},
+{
+    "Year": "2013",
+    "Region": "Northland",
+    "Population": "158700"
+},
+{
+    "Year": "2013",
+    "Region": "Auckland",
+    "Population": "1529400"
+},
+{
+    "Year": "2013",
+    "Region": "Waikato",
+    "Population": "418500"
+},
+{
+    "Year": "2013",
+    "Region": "Bay of Plenty",
+    "Population": "278000"
+},
+{
+    "Year": "2013",
+    "Region": "Gisborne",
+    "Population": "46700"
+},
+{
+    "Year": "2013",
+    "Region": "Hawke's Bay",
+    "Population": "155000"
+},
+{
+    "Year": "2013",
+    "Region": "Taranaki",
+    "Population": "110600"
+},
+{
+    "Year": "2013",
+    "Region": "Manawatu-Wanganui",
+    "Population": "232700"
+},
+{
+    "Year": "2013",
+    "Region": "Wellington",
+    "Population": "492500"
+},
+{
+    "Year": "2013",
+    "Region": "Tasman",
+    "Population": "48600"
+},
+{
+    "Year": "2013",
+    "Region": "Nelson",
+    "Population": "46800"
+}];
+
  data = [
        
 {
@@ -190,85 +383,6 @@
     "Region": "Nelson",
     "Population": "46800"
 }];
-
-data2 = [
-    {
-        "year": "2001",
-        "data": [
-            {
-                "type": "no access",
-                "value": 46815
-            },
-            {
-                "type": "mobile",
-                "value": 0
-            },
-            {
-                "type": "telephone",
-                "value": 1240830
-            },
-            {
-                "type": "fax",
-                "value": 325557
-            },
-            {
-                "type": "internet",
-                "value": 482361
-            }
-        ]
-    },
-    {
-        "year": "2006",
-        "data": [
-            {
-                "type": "no access",
-                "value": 0
-            },
-            {
-                "type": "mobile",
-                "value": 1034529
-            },
-            {
-                "type": "telephone",
-                "value": 1277325
-            },
-            {
-                "type": "fax",
-                "value": 362040
-            },
-            {
-                "type": "internet",
-                "value": 843735
-            }
-        ]
-    },
-    {
-        "year": "2013",
-        "data": [
-            {
-                "type": "no access",
-                "value": 24132
-            },
-            {
-                "type": "mobile",
-                "value": 1230174
-            },
-            {
-                "type": "telephone",
-                "value": 1257195
-            },
-            {
-                "type": "fax",
-                "value": 214554
-            },
-            {
-                "type": "internet",
-                "value": 1128738
-            }
-        ]
-    }
-]
-
 var thickness = 30;
     var width = 500;
     var height = 500;
