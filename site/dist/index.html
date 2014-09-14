@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+
+  <title>CommunicatioNZ</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/bootstrap.css" rel="stylesheet">
+  <link href="css/styles.css" rel="stylesheet">
+
+  <!-- Just for debugging purposes. Don't actually copy this line! -->
+  <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+      <![endif]-->
+    
+     <style>
+        div svg{
+            margin-left:auto;
+            margin-right:auto;
+            display:block;
+        }
+        
+         .topmarg {
+             margin-top:100px;
+         }
+        
+        #back_button {
+            visibility: hidden;
+        }        
+        
+        #doughnut {
+            z-index: 99;
+            position:absolute;
+            top:50%;
+            left:50%;
+            margin: -100px;
+            margin-top: -200px;
+            visibility: hidden;
+        }
+        
+        #map_area svg {
+            margin: 50 auto;
+        }
+        
+    </style>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://d3js.org/d3.v3.js" charset="utf-8"></script>
+     <script src="uk.js" charset="utf-8"></script>
+     <script src="http://cdnjs.cloudflare.com/ajax/libs/topojson/1.1.0/topojson.min.js" charset="utf-8"></script>
+    <script src="PopulationData.js" charset="utf-8"></script>
+    <script src="doughnut.js" charset="utf-8"></script>
+    <script src="DataCollection.js" charset="utf-8"></script>
+    <script src="functions.js" charset="utf-8"></script>
+    </head>
+
+    <body>
+
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          <a class="navbar-brand" href="#"><b>CommunicatioNZ</b></a>
+          </div>
+          <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav pull-right">
+              <li><img class="" src="img/icon_1.png"><a href="#">About<span class="caret"></span></a></li>
+              <li><img class="" src="img/icon_12.png"><a href="#">Contact<span class="caret"></span></a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+
+      <div class="container topmarg">
+        <select id="year_select">
+        <option>2006</option>
+        <option>2013</option>
+    </select>
+    <input id="back_button" type="button" value="Back" />
+    <div id="maps">
+        <div id="map_area"> </div>
+        <div id="doughnut"></div>
+    </div>
+
+        </div><!-- end of container --> 
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+           <script>
+         $('document').ready(function(){
+     //Width and height
+            var w = 1000;
+            var h = 1000;
+             
+             var maxColor = "#000A00";
+             var minColor = "#99C299";
+             
+             var cLat = 180;
+             var cLong = -41;
+             
+             var transition = 1000;
+             var scale = 3200;
+
+            //Define map projection
+            var projection = d3.geo.equirectangular()  
+							    .scale(scale)
+							    .translate([w/2 + (w/8),h/2 - (h/12)])
+							    .rotate([-180,41]);
+
+            //Define path generator
+            var path = d3.geo.path()
+                             .projection(projection);
+
+            //Create SVG element
+            var svg = d3.select("#map_area")
+                        .append("svg")
+                        .attr("width", w)
+                        .attr("height", h);    
+        
+       /*var color = d3.scale.ordinal()
+                      .domain([0, d3.max(popInfo2001)])
+                      .range("#000000", "#00FF00");
+        */
+        
+        var popData = getPopData(popInfo2001);
+      //drawDoughnut();
+        
+        var scaleColor = d3.scale.linear()
+                    .domain([0, 3])
+                    .range([minColor, maxColor]);
+             
+             var zoomed = false;
+       
+             
+        
+        
+        
+        nzg = topojson.feature(nz, nz.objects['nz-regional-councils-census'])
+
+                //Bind data and create one path per GeoJSON feature
+                svg.selectAll("path")
+                   .data(nzg.features)
+                   .enter()
+                   .append("path")
+                   .attr("d", path)
+                   .style("fill", function(d, i) {  
+                        console.log(i, getNoAccessData(i, 2006));
+                        return scaleColor(getNoAccessData(i, 2006));
+                    })
+                    .style("opacity", function(d, i) {
+                        return "rgba(0, 255, 0, " + 1 / i + ")";
+                    })
+                   .style("text", function(d, i) {
+                   	return i;
+                   })
+                    .attr("id", function(d, i) {
+                        return regions[i];
+                    })
+                   .on("mouseover", function(d) {
+                        if(zoomed == false) {
+                            d3.select(this).style("opacity", 0.6);
+                        }
+                    })
+                   .on("mouseout", function(d) {
+                        if(zoomed == false) {
+                            d3.select(this).style("opacity", 1);
+                        }
+			        })
+                    .on("click", function(d){
+                        zoomed = true;
+                        var cords = d3.geo.centroid(d);
+                       
+                        drawMap(cords[0], cords[1], 7200)
+                        d3.selectAll("path").style("opacity", 0.5);
+                        d3.select(this).style("opacity", 1); 
+                        d3.select("#back_button").style("visibility", "visible");
+                        d3.select("#doughnut").style("visibility", "visible");
+                    });
+        
+        //-------------------------------------- Functions =========================
+        function drawMap(xCord, yCord, scale) {
+            projection.rotate([xCord * -1,  yCord * -1])
+                    .scale(scale);
+            
+            svg.selectAll("path")
+            .attr("d", path);
+            
+        }
+             
+       $("#back_button").click(function() {
+           zoomed = false;
+           d3.selectAll("path")
+           .style("opacity", 1);
+           drawMap(cLat, cLong, scale);           
+       })
+             
+        function updateMap(year) {        
+            scaleColor = d3.scale.linear()
+                        .domain([0, 2])
+                        .range([minColor, maxColor]);
+            
+            svg.selectAll("path")            
+            .transition().duration(transition)
+            .style("fill", function(d, i) {   
+                        return scaleColor(getNoAccessData(i, year));
+                    });
+            
+        }
+        
+        
+       
+            
+            $('#year_select').on('change', function() {
+                var selected = $("#year_select").val();                
+                updateMap(selected);
+            })
+        /*
+         * Returns an array with population count.
+         */
+        function getPopData(yearArray) {
+            var population = [];
+        
+            for(var i = 0; i < yearArray.length; i++) {
+               population.push(yearArray[i].Population);
+            }
+            return population;
+        }
+         });
+        
+    </script>
+  </body>
+  </html>

@@ -7,6 +7,9 @@
      <script src="uk.js" charset="utf-8"></script>
      <script src="http://cdnjs.cloudflare.com/ajax/libs/topojson/1.1.0/topojson.min.js" charset="utf-8"></script>
     <script src="PopulationData.js" charset="utf-8"></script>
+    <script src="doughnut.js" charset="utf-8"></script>
+    <script src="DataCollection.js" charset="utf-8"></script>
+    <script src="functions.js" charset="utf-8"></script>
     <title></title>
 </head>
 <body>
@@ -17,17 +20,25 @@
             display:block;
         }
         
-        .focus {
-            opacity: 1;
-        }
-        
-        .unFocus {
-            opacity: 0.5;
-        }
         
         #back_button {
             visibility: hidden;
+        }        
+        
+        #doughnut {
+            z-index: 99;
+            position:absolute;
+            top:50%;
+            left:50%;
+            margin: -100px;
+            margin-top: -200px;
+            visibility: hidden;
         }
+        
+        #map_area svg {
+            margin: 50 auto;
+        }
+        
     </style>
     
     <script>
@@ -39,8 +50,8 @@
              var maxColor = "#000A00";
              var minColor = "#99C299";
              
-             var cLat = -180;
-             var cLong = 41;
+             var cLat = 180;
+             var cLong = -41;
              
              var transition = 1000;
              var scale = 3200;
@@ -66,16 +77,16 @@
                       .range("#000000", "#00FF00");
         */
         
-       var regions = ["North Land", "Auckland", "Waikato", "Bay of Plenty", "Gisbourne", "Hawkes Bay", "Wanganui", "Manuatu", "Wellington", "West Coast", "Canterbury", "Otago", "Southland", "Nelson", "Tasman", "Malbouragh"];
-       var popData = getPopData(popInfo2001);
-  
+        var popData = getPopData(popInfo2001);
+      //drawDoughnut();
         
-        var scale = d3.scale.linear()
-                    .domain([d3.min(popData), d3.max(popData)])
+        var scaleColor = d3.scale.linear()
+                    .domain([0, 3])
                     .range([minColor, maxColor]);
              
              var zoomed = false;
        
+             
         
         
         
@@ -87,8 +98,9 @@
                    .enter()
                    .append("path")
                    .attr("d", path)
-                   .style("fill", function(d, i) {   
-                        return scale(popData[i]);
+                   .style("fill", function(d, i) {  
+                        console.log(i, getNoAccessData(i, 2006));
+                        return scaleColor(getNoAccessData(i, 2006));
                     })
                     .style("opacity", function(d, i) {
                         return "rgba(0, 255, 0, " + 1 / i + ")";
@@ -112,11 +124,12 @@
                     .on("click", function(d){
                         zoomed = true;
                         var cords = d3.geo.centroid(d);
-                        console.log(d3.selectAll("this"));
+                       
                         drawMap(cords[0], cords[1], 7200)
                         d3.selectAll("path").style("opacity", 0.5);
                         d3.select(this).style("opacity", 1); 
                         d3.select("#back_button").style("visibility", "visible");
+                        d3.select("#doughnut").style("visibility", "visible");
                     });
         
         //-------------------------------------- Functions =========================
@@ -130,18 +143,21 @@
         }
              
        $("#back_button").click(function() {
-           drawMap(cLat, cLong, scale);
+           zoomed = false;
+           d3.selectAll("path")
+           .style("opacity", 1);
+           drawMap(cLat, cLong, scale);           
        })
              
-        function updateMap() {        
-            scale = d3.scale.linear()
-                        .domain([d3.min(popData), d3.max(popData)])
+        function updateMap(year) {        
+            scaleColor = d3.scale.linear()
+                        .domain([0, 2])
                         .range([minColor, maxColor]);
             
             svg.selectAll("path")            
             .transition().duration(transition)
             .style("fill", function(d, i) {   
-                        return scale(popData[i]);
+                        return scaleColor(getNoAccessData(i, year));
                     });
             
         }
@@ -150,14 +166,8 @@
        
             
             $('#year_select').on('change', function() {
-                var selected = $("#year_select").val();
-                if(selected == "2001") {
-                    popData = getPopData(popInfo2001);
-                }                 
-                else {
-                    popData = getPopData(popInfo2006);
-                }
-                updateMap();
+                var selected = $("#year_select").val();                
+                updateMap(selected);
             })
         /*
          * Returns an array with population count.
@@ -174,12 +184,13 @@
         
     </script>
     <select id="year_select">
-        <option>2001</option>
         <option>2006</option>
+        <option>2013</option>
     </select>
     <input id="back_button" type="button" value="Back" />
-    <div id="map_area">
-        
+    <div id="maps">
+        <div id="map_area"> </div>
+        <div id="doughnut"></div>
     </div>
 </body>
 </html>
