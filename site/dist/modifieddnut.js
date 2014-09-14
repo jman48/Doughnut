@@ -432,7 +432,7 @@ function drawPie(data, radius) {
     })
     .attr("fill", function(d, i) {
     	//console.log(d, i)
-    	console.log(color(d.data.Region));
+    	//console.log(color(d.data.Region));
         return color(d.data.Region);
         
     });

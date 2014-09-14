@@ -111,7 +111,8 @@
                    	return i;
                    })
                     .attr("id", function(d, i) {
-                        return regions[i];
+                    console.log(i, );
+                        return regions[i].Name;
                     })
                    .on("mouseover", function(d) {
                         if(zoomed == false) {

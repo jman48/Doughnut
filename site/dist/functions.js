@@ -1,27 +1,37 @@
-var regions = [{ID:0, Name: "Northland"},
-               {ID:1, Name: "Auckland"},
-               {ID:2, Name: "Waikato"},
-               {ID:3, Name: "BayOfPlenty"},
-               {ID:4, Name: "Gisbourne"},
-               {ID:5, Name: "HawkesBay"},
-               {ID:6, Name: "Taranaki"},
-               {ID:7, Name: "ManawatuWanganui"},
-               {ID:8, Name: "Wellington"},
-               {ID:9, Name: "Tasman"},
-               {ID:10, Name: "Nelson"},
-               {ID:11, Name: "Marlborough"},
-               {ID:12, Name: "WestCoast"},
-               {ID:13, Name: "Canterbury"},
-               {ID:14, Name: "Otago"},
-               {ID:15, Name: "Southland" }
-              ]
+var regions = [{ID:7, Name: "Northland"},
+               {ID:8, Name: "Auckland"},
+               {ID:9, Name: "Waikato"},
+               {ID:10, Name: "BayOfPlenty"},
+               {ID:12, Name: "Gisbourne"},
+               {ID:11, Name: "HawkesBay"},
+               {ID:13, Name: "Taranaki"},
+               {ID:14, Name: "ManawatuWanganui"},
+               {ID:15, Name: "Wellington"},
+               {ID:4, Name: "Tasman"},
+               {ID:5, Name: "Nelson"},
+               {ID:6, Name: "Marlborough"},
+               {ID:1, Name: "WestCoast"},
+               {ID:3, Name: "Canterbury"},
+               {ID:2, Name: "Otago"},
+               {ID:0, Name: "Southland" },
+               {ID:16, Name: "Stewart Island" }
+              ];
+
+
+function getRegionName(regionID) {
+    for( var i = 0; i < regions.length; i++) {
+		if(regions[i].ID == regionID) {
+            return regions[i].Name;
+        }
+    }
+}
 
 //a method for obtaining statistical number which compares access vs no access in a region
 function getNoAccessData(regionID, year) {
     if(regionID >= regions.length) {
         return;
     }
-    var reg = regions[regionID].Name;
+    var reg = getRegionName(regionID);
     
     //find out which structure we're iterating over
     var struc;
@@ -57,7 +67,7 @@ function getAccessTotal(structure){
 
 //Returns an object which contains the information relevant to a region, and a year.
 function getICTData(regionID, year) {
-    var reg = regions[regionID].Region;
+    var reg = getRegionName(regionID);
     
     //find out which structure we're iterating over
     var struc;
