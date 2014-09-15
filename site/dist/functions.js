@@ -102,6 +102,7 @@ function getAgeData(regionID, year) {
     else {
         ageData = Ages2013;
     }
+    return ageData;    
 }
 
 

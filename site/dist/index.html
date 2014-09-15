@@ -37,7 +37,8 @@
              margin-top:100px;
          }
          .about {
-margin-top: 70px;}
+            margin-top: 70px;
+         }
         
         #back_button {
             visibility: hidden;
@@ -93,6 +94,7 @@ margin-top: 70px;}
      <script src="uk.js" charset="utf-8"></script>
      <script src="http://cdnjs.cloudflare.com/ajax/libs/topojson/1.1.0/topojson.min.js" charset="utf-8"></script>
     <script src="PopulationData.js" charset="utf-8"></script>
+    <script src="AgeData.js" charset="utf-8"></script>
     <script src="functions.js" charset="utf-8"></script>
     <script src="modifieddnut.js" charset="utf-8"></script>
     </head>
@@ -154,7 +156,7 @@ margin-top: 70px;}
      //Width and height
      //
                 drawPie(getICTData(15, "2006"));
-                 drawPieInner(age2006);
+                drawPieInner(getAgeData(15, "2006"));
             var w = 1000;
             var h = 1000;
              
@@ -287,11 +289,11 @@ margin-top: 70px;}
                 updateMap(selected);
                 if(selected == "2006") {
                    drawPie(getICTData(15, "2006"));
-                    drawPieInner(age2006);
+                   drawPieInner(getAgeData(15, "2006"));
                 }
                 else {
                     drawPie(getICTData(15, "2013"));
-                    drawPieInner(age2013);
+                    drawPieInner(getAgeData(15, "2013"));
                 }
             })
         /*
