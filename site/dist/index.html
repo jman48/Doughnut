@@ -279,13 +279,12 @@
                         return scaleColor(getNoAccessData(i, year));
                     });
             
-        }
-        
-        
+        }       
        
             
             $('#year_select').on('change', function() {
-                var selected = $("#year_select").val();                
+                var selected = $("#year_select").val(); 
+                $("#canvas").html("");
                 updateMap(selected);
                 if(selected == "2006") {
                    drawPie(getICTData(15, "2006"));

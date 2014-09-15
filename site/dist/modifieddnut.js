@@ -11,14 +11,14 @@ function drawPie(data) {
     var color = d3.scale.category20();
    
     if(svg == null) {
-	    svgDonut = d3.select("#donught")        
+	    svg = d3.select("#donught")        
 	    .append("svg")
 	    .attr("width", width)
-	    .attr("height", height);
-	    svg = svgDonut;
+	    .attr("height", height)
+        .attr("id", "canvas");
 	}
     
-    var group = svgDonut    
+    var group = svg   
     .append("g")
     .attr("transform", "translate(" + width/2 + ", " + height/2 + ")");
     
@@ -78,14 +78,16 @@ function drawPieInner(data) {
     var radiusInnner = radius - thickness;
    
     if(svg == null) {
-	    svgDonut = d3.select("#donught")        
+	    svg = d3.select("#donught")        
 	    .append("svg")
 	    .attr("width", width)
 	    .attr("height", height);
-	    svg = svgDonut;
 	}
+    else {
+        //svgDonut.html("");
+    }
     
-    var group = svgDonut    
+    var group = svg   
     .append("g")
     .attr("transform", "translate(" + width/2 + ", " + height/2 + ")");
     
