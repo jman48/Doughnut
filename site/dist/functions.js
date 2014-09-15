@@ -82,9 +82,8 @@ function getICTData(regionID, year) {
     }
     
     for(var i=0; i<struc.length; i++){ //for loop to locate the appropriate object from array
-        if( reg == struc[i].Region){
-            
-            return struc[i];
+        if( reg == struc[i].Region){            
+            return [{name: "No Access", value: struc[i].NoAccess}, {name: "Mobile", value: struc[i].Mobile}, {name: "Telephone", value: struc[i].Telephone}, {name: "Fax", value: struc[i].Fax}, {name: "Internet", value: struc[i].Internet}];
         }
     }
 }
@@ -93,6 +92,16 @@ function getICTData(regionID, year) {
 function getRegionTotal(regionObject){
     var total = regionObject.NoAccess + regionObject.Mobile + regionObject.Telephone + regionObject.Fax + regionObject.Internet;
     return total;
+}
+
+function getAgeData(regionID, year) {
+    var ageData;
+    if(year == "2006") {
+        ageData = Ages2006;
+    }
+    else {
+        ageData = Ages2013;
+    }
 }
 
 

@@ -1,4 +1,4 @@
-var WellingtonAges2006 = [{AgeGroup: "0-4years", Total: 30378, Males: 15438, Females:14940},
+var Ages2006 = [{AgeGroup: "0-4years", Total: 30378, Males: 15438, Females:14940},
                           {AgeGroup: "5-9years", Total: 30420, Males: 15549, Females: 14874},
                           {AgeGroup: "10-14years", Total: 31647, Males: 16086, Females: 15561},
                           {AgeGroup: "15-19years", Total: 32874, Males: 16392, Females: 16485},
@@ -18,7 +18,7 @@ var WellingtonAges2006 = [{AgeGroup: "0-4years", Total: 30378, Males: 15438, Fem
                           {AgeGroup: "85andover", Total: 5847, Males: 1785, Females: 4059}
                          ];
 
-var WellingtonAges2013 = [{AgeGroup: "1-4years", Total: 31350, Males: 15903, Females: 15450},
+var Ages2013 = [{AgeGroup: "1-4years", Total: 31350, Males: 15903, Females: 15450},
                           {AgeGroup: "5-9years", Total: 30600, Males: 15495, Females: 15108},
                           {AgeGroup: "10-14years", Total: 30051, Males: 15324, Females: 14730},
                           {AgeGroup: "15-19years", Total: 32892, Males: 16434, Females: 16458},
