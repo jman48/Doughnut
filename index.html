@@ -1,25 +1,315 @@
-<!--
-To change this template use Tools | Templates.
--->
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title></title>
-    <script src="CommData.js"></script>
-    <script src="functions.js"></script>
-                             
-    <script>
-        
-        var percentage = getNoAccessData(1,2013);
-        console.log("percentage="+percentage);
-        
-        var table = getICTData(1,2013);
-        
-        console.log("getting the collection:"+table.Region );
-    </script>
-    
-</head>
-<body>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
 
-</body>
-</html>
+  <title>CommunicatioNZ</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/bootstrap.css" rel="stylesheet">
+  <link href="css/styles.css" rel="stylesheet">
+
+  <!-- Just for debugging purposes. Don't actually copy this line! -->
+  <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+      <![endif]-->
+    
+     <style>
+        div svg{
+            margin-left:auto;
+            margin-right:auto;
+            display:block;
+        }
+        
+         .topmarg {
+             margin-top:100px;
+         }
+         .about {
+            margin-top: 70px;
+         }
+        
+        #back_button {
+            visibility: hidden;
+        }        
+        
+        #donught{
+            z-index: 99;
+            position:absolute;
+            top:55%;
+            left:47%;
+            margin-left: -100px;
+            margin-top: -220px;
+            visibility: hidden;
+        }
+        
+        #map_area svg {
+            margin: 50 auto;
+        }
+         
+         #tooltip_d3 {
+             z-index: 100;
+            position: absolute;
+            width: 200px;
+            height: auto;
+            padding: 10px;
+            background-color: white;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+            -mox-box-shadow: 4px 4px 4px 10px rgba(0, 0, 0, 0.4);
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+            pointer-events: none;
+        }
+        #tooltip_d3.hidden_tool {
+            opacity: 0;
+        }
+        .content {
+            width: 1200px;
+            float:left;
+        }
+        #tooltip_d3 p {
+            margin: 0;
+            font-family: sans-serif;
+            font-size: 16px;
+            line-height: 20px;
+        }
+        
+    </style>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://d3js.org/d3.v3.js" charset="utf-8"></script>
+     <script src="uk.js" charset="utf-8"></script>
+     <script src="http://cdnjs.cloudflare.com/ajax/libs/topojson/1.1.0/topojson.min.js" charset="utf-8"></script>
+    <script src="PopulationData.js" charset="utf-8"></script>
+    <script src="AgeData.js" charset="utf-8"></script>
+    <script src="functions.js" charset="utf-8"></script>
+    <script src="modifieddnut.js" charset="utf-8"></script>
+    </head>
+
+    <body>
+
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          <a class="navbar-brand" href="#"><b>CommunicatioNZ</b></a>
+          </div>
+          <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav pull-right">
+              <li class="about_link"><img class="" src="img/icon_1.png"><a href="#">About<span class="caret"></span></a></li>
+              <li><img class="" src="img/icon_12.png"><a href="#">Contact<span class="caret"></span></a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+
+    <div class="about">
+        <h1>Team Doughnut</h1>
+    </div>
+      <div class="container topmarg">
+        <select id="year_select">
+        <option>2006</option>
+        <option>2013</option>
+    </select>
+    <input id="back_button" type="button" value="Back" />
+          <h2 id="index"></h2>
+    <div id="maps">
+        <div id="map_area"> </div>
+        <div id="donught"></div>
+    </div>
+          
+        
+
+        </div><!-- end of container --> 
+        
+        <!-- Hidden tool tip. sssshhhh! -->
+        <div id="tooltip_d3" class="hidden_tool">
+            <p><strong><span id="title">Important Label Heading</span></strong></p>
+            <p><span id="value">1</span></p>
+        </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+           <script>
+         $('document').ready(function(){
+     //Width and height
+     //
+                drawPie(getICTData(15, "2006"));
+                drawPieInner(getAgeData(15, "2006"));
+            var w = 1000;
+            var h = 1000;
+             
+             var maxColor = "#000A00";
+             var minColor = "#99C299";
+             
+             var cLat = 180;
+             var cLong = -41;
+             
+             var transition = 1000;
+             var scale = 3200;
+
+            //Define map projection
+            var projection = d3.geo.equirectangular()  
+							    .scale(scale)
+							    .translate([w/2 + (w/8),h/2 - (h/12)])
+							    .rotate([-180,41]);
+
+            //Define path generator
+            var path = d3.geo.path()
+                             .projection(projection);
+
+            //Create SVG element
+            var svg = d3.select("#map_area")
+                        .append("svg")
+                        .attr("width", w)
+                        .attr("height", h);    
+        
+       /*var color = d3.scale.ordinal()
+                      .domain([0, d3.max(popInfo2001)])
+                      .range("#000000", "#00FF00");
+        */
+        
+        var popData = getPopData(popInfo2001);
+      //drawDoughnut();
+        
+        var scaleColor = d3.scale.linear()
+                    .domain([0, 3])
+                    .range([minColor, maxColor]);
+             
+             var zoomed = false;
+       
+             
+        
+        
+        
+        nzg = topojson.feature(nz, nz.objects['nz-regions'])
+
+                //Bind data and create one path per GeoJSON feature
+                svg.selectAll("path")
+                   .data(nzg.features)
+                   .enter()
+                   .append("path")
+                   .attr("d", path)
+                   .style("fill", function(d, i) {  
+                        return scaleColor(getNoAccessData(i, 2006));
+                    })
+                   .style("text", function(d, i) {
+                   	return i;
+                   })
+                    .attr("id", function(d, i) {
+                        return getRegionName(i);
+                })
+                .attr("class", "geo_path")
+                   .on("mouseover", function(d, i) {
+                        if(zoomed == false) {
+                            d3.select(this).style("opacity", 0.6);
+                        }
+                    })
+                   .on("mouseout", function(d) {
+                        if(zoomed == false) {
+                            d3.select(this).style("opacity", 1);
+                        }
+                    d3.select(this).attr("transform", "scale(1)");
+			        })
+                    .on("click", function(d, i){
+                        zoomed = true;
+                        var cords = d3.geo.centroid(d);
+                       
+                        drawMap(cords[0], cords[1], 7200)
+                        d3.selectAll(".geo_path").style("opacity", 0.3);
+                        d3.select(this).style("opacity", 1); 
+                        d3.select("#back_button").style("visibility", "visible");
+                        d3.select("#donught").style("visibility", "visible");
+                        d3.select("#donught").style("opacity", "1");
+                    
+                    console.log(i);
+                    });
+        
+        //-------------------------------------- Functions =========================
+        function drawMap(xCord, yCord, scale) {
+            projection.rotate([xCord * -1,  yCord * -1])
+                    .scale(scale);
+            
+            var path = svg.selectAll("path")
+            .attr("d", path);
+            
+        }
+             
+       $("#back_button").click(function() {
+           zoomed = false;
+           d3.selectAll("path")
+           .style("opacity", 1);
+           d3.select("#donught").style("visibility", "hidden");
+           drawMap(cLat, cLong, scale);      
+           d3.select("#back_button").style("visibility", "hidden");
+       })
+       
+       $(".about" ).hide();
+       $(".about_link").click(function() {
+           $( ".about" ).toggle();
+       });
+             
+        function updateMap(year) {        
+            scaleColor = d3.scale.linear()
+                        .domain([0, 2])
+                        .range([minColor, maxColor]);
+            
+            svg.selectAll("path")            
+            .transition().duration(transition)
+            .style("fill", function(d, i) {   
+                        return scaleColor(getNoAccessData(i, year));
+                    });
+            
+        }       
+       
+            
+            $('#year_select').on('change', function() {
+                var selected = $("#year_select").val(); 
+                $("#canvas").html("");
+                updateMap(selected);
+                if(selected == "2006") {
+                   drawPie(getICTData(15, "2006"));
+                   drawPieInner(getAgeData(15, "2006"));
+                }
+                else {
+                    drawPie(getICTData(15, "2013"));
+                    drawPieInner(getAgeData(15, "2013"));
+                }
+            })
+        /*
+         * Returns an array with population count.
+         */
+        function getPopData(yearArray) {
+            var population = [];
+        
+            for(var i = 0; i < yearArray.length; i++) {
+               population.push(yearArray[i].Population);
+            }
+            return population;
+        }
+         });
+        
+    </script>
+  </body>
+  </html>

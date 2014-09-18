@@ -56,15 +56,17 @@ function drawPie(data) {
                     });
     
     arcs.append("path")
-    .attr("d", arc)
-    .attr("id", function(d,i){i;
-    })
-    .attr("fill", function(d, i) {
-    	//console.log(d, i)
-    	//console.log(color(d.data.Region));
-        return color(d.value);
-        
-    });
+        .attr("id", function(d,i){i;
+            })
+        .attr("d", arc)
+        .attr("id", function(d,i){i;
+        })
+        .attr("fill", function(d, i) {
+            //console.log(d, i)
+            //console.log(color(d.data.Region));
+            return color(d.value);
+
+        });
     
     //Recursively make a call to this method to draw all inner circles until no teams left
     //drawPie(teams, svgDonut, (radius - thickness));
