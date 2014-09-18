@@ -209,7 +209,7 @@
                 svg.selectAll("path")
                    .data(nzg.features)
                    .enter()
-                   .append("path")
+                   .append("path", path)
                    .attr("d", path)
                    .style("fill", function(d, i) {  
                         return scaleColor(getNoAccessData(i, 2006));
@@ -251,7 +251,7 @@
             projection.rotate([xCord * -1,  yCord * -1])
                     .scale(scale);
             
-            var path = svg.selectAll("path")
+            svg.selectAll("path")
             .attr("d", path);
             
         }
